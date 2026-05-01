@@ -165,10 +165,7 @@ assign #5 spi_sdi0 = spi_sdo0;
     // Wait for state to enter DATA_TX (5) then eventually end
     wait(DUT.u_spictrl.state == 5);
     $display("T=%0t | Entered DATA_TX (State 5)", $time);
-    
-    // YAHAN DHAYAN DEIN: 
-    // Agar state 5 ke baad 6 nahi aa rahi, toh wait(eot) ke baad 
-    // humein ek separate READ command deni pad sakti hai.
+  
     wait(DUT.u_spictrl.eot == 1);
     #200; // Small buffer for sync
 
@@ -189,9 +186,7 @@ assign #5 spi_sdi0 = spi_sdo0;
     #1000;
     $finish;
   end
-  // -----------------------------
-  // DEBUG
-  // -----------------------------
+ 
   initial begin
     $monitor("T=%0t | CLK=%b CS=%b MOSI=%b MISO=%b,PWDATA=%h,PRDATA = %h,pointer_in = %h,pointer_out = %h,valid_i = %b,full = %d,state = %d",
               $time, spi_clk, spi_csn0, spi_sdo0, spi_sdi0,PWDATA,PRDATA,DUT.u_rxfifo.pointer_in,DUT.u_rxfifo.pointer_out,DUT.u_rxfifo.valid_i,DUT.u_rxfifo.full
